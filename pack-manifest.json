@@ -1,12 +1,13 @@
 {
   "id": "monster-chase",
   "name": "Monster Chase",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "about": "A variable pursuit through a haunted forest. Sprint or lean to escape; catch-up pursuit keeps the monster within the chase after earned breathing room.",
   "needs": {
     "hills": "the mode sets the slope",
     "steering": "Arrow keys; optional local camera lean or device tilt",
-    "calibration": "FTP"
+    "calibration": "FTP",
+    "hub": "1.12.4"
   },
   "price": "Free; optional $1 suggested donation",
   "permissions": {
@@ -27,12 +28,12 @@
   "main": "game.pck",
   "format": 1,
   "files": {
-    "credits.txt": "fd2d82355cc364b81793f4288eb1db9016730add8f2121a8a06b4450e325bdfd",
-    "game.pck": "a57cbba005b1e4f503d3a881ae3f997a1988afe6068f56e114a83629a7832f05",
-    "readable-source.txt": "c383a1c8e9d282bde89af5fca1780b757ad89a314f1df117dfaa2e32e356eb65"
+    "credits.txt": "798a617eee23d4ee5f29e7bb09b5d32b10e29e5b30a6ccb748da6bb535259853",
+    "game.pck": "ddc216a234d944b78ce090acf45b357895f7b599dd17223d96626cf73574161f",
+    "web-code.txt": "2f305e12cafadcf9e970b68e01ce27c75b1f97a43b4b7b991480a1e72912b426"
   },
   "signature": {
     "key": "jharp-2026",
-    "sig": "1d4e1b2b7f7f53fd685452bff44e657af351e1c87f7f64412d47a92c6d23bcb5adf339e863b207041ba2707a73325de720495cbce950b08a21edcaad7fb52c0b"
+    "sig": "0d6216e146bd0423ec5b19cb1418c7b02597894bc8840d048bd345e316804b799a18062a4c32a0e23e1e73321a5ab7d3bbd36725aefe29e89eb1d7d7a1692400"
   }
 }

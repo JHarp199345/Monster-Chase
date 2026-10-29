@@ -28,7 +28,7 @@ const SPRINT_HOLD := 0.4              # s above the sprint line, across crouch a
 const GRAB_LIMIT := 15.0              # s of struggle; whoever is ahead on the meter then wins
 const HEAD_STARTS := [40.0, 80.0, 150.0]
 const RIDERS := ["Timmy", "Olivia", "Michelle"]   # assets/riders/<name>.glb + .bike.json from tools/rider_rig.py
-const SAVE := "user://monster_chase.cfg"          # each rider's chosen bike
+const SAVE := "monster_chase.cfg"                  # each rider's chosen bike (saved with the hub: HubLink.save_config)
 
 var pts := PackedVector3Array()
 var dirs := PackedVector3Array()
@@ -108,8 +108,8 @@ func _ready() -> void:
 	pursuit_rng.randomize()
 	if FileAccess.file_exists("res://assets/bikes/index.json"):
 		bikes = JSON.parse_string(FileAccess.get_file_as_string("res://assets/bikes/index.json"))
-	var cfg := ConfigFile.new()
-	if cfg.load(SAVE) == OK:
+	var cfg := HubLink.load_config(SAVE)
+	if cfg.has_section("bikes") or cfg.has_section("ride"):
 		for r in RIDERS:
 			bike_of[r] = cfg.get_value("bikes", r, "")
 		rider_name = cfg.get_value("ride", "rider", rider_name)
@@ -405,7 +405,7 @@ func _save_choices() -> void:
 	for r in bike_of:
 		cfg.set_value("bikes", r, bike_of[r])
 	cfg.set_value("ride", "rider", rider_name)
-	cfg.save(SAVE)
+	HubLink.save_config(SAVE, cfg)
 
 
 func _build_bike(model: Node3D, g: Dictionary) -> void:
@@ -903,7 +903,9 @@ func _leave() -> void:
 	HubLink.set_grade(0.0)
 	if OS.has_feature("web"):
 		# inside the Ride page: hand back to it (it opens the Ride menu); on its own: back to the Ride page
-		JavaScriptBridge.eval("window.parent !== window ? window.parent.postMessage({type: 'hub-leave-mode'}, location.origin) : location.assign('/ride')", true)
+		# to the Hub page, whose address differs from the game's own; the message carries nothing, and the Hub checks
+		# that it really came from this game's frame (module-host.js)
+		JavaScriptBridge.eval("window.parent !== window ? window.parent.postMessage({type: 'hub-leave-mode'}, '*') : location.assign('/ride')", true)
 	else:
 		get_tree().quit()
 

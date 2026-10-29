@@ -6,13 +6,13 @@ It's an interval workout in disguise: the monster's pace is set from your own FT
 
 ## Download
 
-**[Download Monster Chase 0.1.17](https://github.com/JHarp199345/Monster-Chase/releases/latest)** (free). Needs S-Bike Training Hub 1.12.3 or later.
+**[Download Monster Chase 0.1.18](https://github.com/JHarp199345/Monster-Chase/releases/latest)** (free). Needs S-Bike Training Hub 1.12.4 or later.
 
 Monster Chase is not a standalone app. It runs inside the hub. Don't have the hub yet? [Install S-Bike Training Hub](https://github.com/JHarp199345/S-Bike-Training-Hub#set-it-up) first.
 
 ## Install
 
-1. Download `monster-chase-0.1.17.zip` from the [Releases page](https://github.com/JHarp199345/Monster-Chase/releases/latest). Don't unzip it.
+1. Download `monster-chase-0.1.18.zip` from the [Releases page](https://github.com/JHarp199345/Monster-Chase/releases/latest). Don't unzip it.
 2. Open the hub and go to **Ride → Add a module**.
 3. Drop in the ZIP. The hub shows you exactly what the game is allowed to read and control (listed below). Approve it.
 4. Pick **Monster Chase** in the Ride menu and start pedalling.
@@ -31,9 +31,18 @@ The hub enforces these limits; the game asks for nothing else.
 
 Leaning is optional: a tilted tablet, a phone on a rocker plate, your camera (head and shoulders only, processed on your device by the hub), or the arrow keys. The hub always decides what actually reaches your bike, and it clamps the hill to a safe range.
 
+## Is this safe?
+
+You don't have to take a new developer's word for it. Here's what you can check:
+
+- **The code is readable.** Every script in the game is in this repo and, as plain text, inside the download. Nothing that runs is hidden.
+- **`web-code.txt`** in the download lists every line where the game talks to the hub's page, in one place.
+- **Only the art is encrypted**, because the model licences forbid handing out the files. No code is allowed in an encrypted file: the packing tool refuses to build a game that tries.
+- **The hub boxes the game in**, and the hub's own code is open for anyone to read. The game can't make web requests or reach your other programs, can't read your files or your hub data, is closed if it tries to open another page, and can't use your camera, microphone or location. It only gets the readings you approve, its hills are eased in (never jolted), its sound goes through a volume limiter, a frozen game is closed, and its saved settings live with the hub, where you can read them. Details and honest limits: [the hub's SECURITY.md](https://github.com/JHarp199345/S-Bike-Training-Hub/blob/main/SECURITY.md#modules).
+
 ## Read the code
 
-This repo holds the game's source code, exactly as shipped in 0.1.17, so you can check what it does.
+This repo holds the game's source code, exactly as shipped in 0.1.18, so you can check what it does. The same scripts are inside the download as plain text, so you can compare them.
 
 | File | What it does |
 |---|---|
@@ -43,7 +52,7 @@ This repo holds the game's source code, exactly as shipped in 0.1.17, so you can
 | [`core/rider_fit.gd`](core/rider_fit.gd), [`core/bike_fit.gd`](core/bike_fit.gd) | Putting the rider on the bike |
 | [`pack-manifest.json`](pack-manifest.json) | The signed manifest: permissions, file fingerprints and signature |
 
-The 3D models (bikes, riders, the monster) and the sky are not in this repo. Their licences allow them inside the game but not as separate downloads, so they're only in the signed ZIP. The game looks and plays exactly the same. Credits for every model are in [CREDITS.txt](CREDITS.txt).
+The 3D models (bikes, riders, the monster) and the sky are not in this repo. Their licences allow them inside the game but not as separate downloads, so in the signed ZIP they're encrypted, and only the hub's game engine can read them. The game looks and plays exactly the same. Credits for every model are in [CREDITS.txt](CREDITS.txt).
 
 ## Credits
 

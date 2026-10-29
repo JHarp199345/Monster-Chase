@@ -13,8 +13,15 @@ var connected := false
 var _http: HTTPRequest
 var _busy := false
 var _misses := 0
+var _course_callback: JavaScriptObject
+var _menu_callback: JavaScriptObject
 
 func _ready() -> void:
+	if OS.has_feature("web") and OS.has_feature("absolute_adrenaline"):
+		_course_callback = JavaScriptBridge.create_callback(_receive_course)
+		_menu_callback = JavaScriptBridge.create_callback(_course_menu)
+		JavaScriptBridge.get_interface("window").sbikeCourseReady = _course_callback
+		JavaScriptBridge.get_interface("window").sbikeCourseMenu = _menu_callback
 	# Web games use the restricted page bridge; only local editor sessions use HTTP.
 	base = "" if OS.has_feature("web") else "http://127.0.0.1:8729"
 	_http = HTTPRequest.new()
@@ -106,3 +113,36 @@ func _send(path: String) -> void:
 	add_child(req)
 	req.request_completed.connect(func(_r, _c, _h, _b): req.queue_free())
 	req.request(base + path, [], HTTPClient.METHOD_POST, "")
+
+## Saved settings live with the hub, not in the browser: the hub wipes a game's browser storage every launch and hands
+## its saves back before the game starts. Small text only (the hub caps a game's saves at 256 KB, names like
+## "monster_chase.cfg"). In the editor they're ordinary user:// files.
+func load_config(file: String) -> ConfigFile:
+	var cfg := ConfigFile.new()
+	if OS.has_feature("web"):
+		var text = JavaScriptBridge.eval("window.SBikeBridge ? window.SBikeBridge.saved(%s) : null" % JSON.stringify(file), true)
+		if text is String:
+			cfg.parse(text)
+	else:
+		cfg.load("user://" + file)
+	return cfg
+
+func save_config(file: String, cfg: ConfigFile) -> void:
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("window.SBikeBridge && window.SBikeBridge.save(%s,%s)" % [JSON.stringify(file), JSON.stringify(cfg.encode_to_text())], true)
+	else:
+		cfg.save("user://" + file)
+
+## Stable across showroom/race scene changes; no browser URL or Hub token enters the game.
+func _receive_course(args: Array) -> void:
+	if args.is_empty(): return
+	var course: Variant = JSON.parse_string(str(args[0]))
+	if not course is Dictionary or not course.get("points") is Array: return
+	if course.points.size() < 4 or course.points.size() > 100000: return
+	get_tree().paused = false
+	var mode = load("res://modes/course_road/course_road.gd")
+	mode.pending_course = course
+	get_tree().change_scene_to_file("res://modes/course_road/course_road.tscn")
+
+func _course_menu(args: Array) -> void:
+	if not args.is_empty(): get_tree().paused = bool(args[0])
