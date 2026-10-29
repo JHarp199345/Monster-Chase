@@ -1,0 +1,38 @@
+{
+  "id": "monster-chase",
+  "name": "Monster Chase",
+  "version": "0.1.17",
+  "about": "A variable pursuit through a haunted forest. Sprint or lean to escape; catch-up pursuit keeps the monster within the chase after earned breathing room.",
+  "needs": {
+    "hills": "the mode sets the slope",
+    "steering": "Arrow keys; optional local camera lean or device tilt",
+    "calibration": "FTP"
+  },
+  "price": "Free; optional $1 suggested donation",
+  "permissions": {
+    "telemetry": [
+      "power",
+      "cadence",
+      "speed",
+      "ftp",
+      "mass"
+    ],
+    "controls": [
+      "hills",
+      "markers",
+      "lean"
+    ]
+  },
+  "engine": "4.7.1",
+  "main": "game.pck",
+  "format": 1,
+  "files": {
+    "credits.txt": "fd2d82355cc364b81793f4288eb1db9016730add8f2121a8a06b4450e325bdfd",
+    "game.pck": "a57cbba005b1e4f503d3a881ae3f997a1988afe6068f56e114a83629a7832f05",
+    "readable-source.txt": "c383a1c8e9d282bde89af5fca1780b757ad89a314f1df117dfaa2e32e356eb65"
+  },
+  "signature": {
+    "key": "jharp-2026",
+    "sig": "1d4e1b2b7f7f53fd685452bff44e657af351e1c87f7f64412d47a92c6d23bcb5adf339e863b207041ba2707a73325de720495cbce950b08a21edcaad7fb52c0b"
+  }
+}
